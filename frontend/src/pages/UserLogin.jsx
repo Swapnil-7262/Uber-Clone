@@ -9,7 +9,7 @@ const UserLogin = () => {
   const [password, setPassword] = useState("")
   const [userData, setUserData] = useState({})
 
-  const submitHandler = (e) => {
+  const submitHandler =  (e) => {
     e.preventDefault();
     setUserData({
       email:email,

@@ -6,18 +6,14 @@ const CaptainSignUp = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [fullName, setFullName] = useState('')
   const [userData, setUserData] = useState({})
 
   const submitHandler = (e) => {
     e.preventDefault()
 
     setUserData({
-      fullName: {
-        firstName: firstName,
-        lastName: lastName,
-      },
+      fullName: fullName,
       email: email,
       password: password
     })
@@ -34,40 +30,28 @@ const CaptainSignUp = () => {
     <div>
       <div className='p-7 flex flex-col justify-between h-screen'>
         <div>
-        <img
-          className='w-20 mt-5'
-          src="https://www.svgrepo.com/show/505031/uber-driver.svg"
-          alt="" />
+          <img
+            className='w-20 mt-5'
+            src="https://www.svgrepo.com/show/505031/uber-driver.svg"
+            alt="" />
 
           <form onSubmit={(e) =>
             submitHandler(e)
           } >
 
             <h3 className='text-base font-medium mb-2'>What's your name</h3>
-            <div className='flex gap-4 mb-5'>
-              <input
-                required
-                value={firstName}
-                onChange={(e) =>
-                  setFirstName(e.target.value)
-                }
-                className='bg-[#eeeeee] rounded  px-4 py-2 border w-1/2 text-lg placeholder:text-sm'
-                type="text"
-                placeholder='First name'
 
-              />
-              <input
-                required
-                value={lastName}
-                onChange={(e) =>
-                  setLastName(e.target.value)
-                }
-                className='bg-[#eeeeee] rounded  px-4 py-2 border w-1/2 text-lg placeholder:text-sm'
-                type="text"
-                placeholder='Last name'
+            <input
+              required
+              value={fullName}
+              onChange={(e) =>
+                setFullName(e.target.value)
+              }
+              className='bg-[#eeeeee] rounded  px-4 py-2 border w-full text-lg placeholder:text-sm'
+              type="text"
+              placeholder='First name'
 
-              />
-            </div>
+            />
 
             <h3 className='text-base font-medium mb-2'>What's your email</h3>
 
@@ -94,7 +78,7 @@ const CaptainSignUp = () => {
               type="password"
               placeholder='password' />
 
-            <button className='bg-[#111] text-white font-semibold  px-4 py-2 w-full text-lg placeholder:text-base'>Login</button>
+            <button className='bg-[#111] text-white font-semibold  px-4 py-2 w-full text-lg placeholder:text-base'>Create captain account </button>
 
           </form>
           <p className='text-center mt-2'>Already have a account? <Link to="/captain-login" className='text-blue-600'>Login here</Link></p>
