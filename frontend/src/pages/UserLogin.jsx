@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { UserDataContext } from '../contexts/UserContext'
+import { UserDataContext } from '../contexts/UserContext.jsx'
 
 
 
@@ -21,19 +21,30 @@ const UserLogin = () => {
       email: email,
       password: password
     }
-   
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData, { withCredentials: true })
     // console.log(response);
     if (response.status === 200) {
-      const data = response.data
+      const data = response.data.data
       // console.log(data);
-      setUser(data.user)
+      
+      const { accessToken, loggedUser } = data;
+      // console.log("Logged User:", loggedUser);
+      // console.log("Access Token:", accessToken);
+      
+      if (!accessToken) {
+        throw new Error("AccessToken missing in the response.");
+      }
+
+      setUser(loggedUser)
+
+      localStorage.setItem('token', accessToken)
       navigate('/home')
     }
 
     setEmail('')
     setPassword('')
-    
+
   }
 
   return (
@@ -79,7 +90,7 @@ const UserLogin = () => {
         <p className='text-center mt-5'>New here? <Link to="/signup" className='text-blue-600'>Create new Account</Link></p>
       </div>
       <div className=''>
-        <Link  to="/captain-login" className='flex justify-center items-center bg-[#b9ea34] text-black font-semibold px-4 py-2 w-full text-lg placeholder:text-base'>
+        <Link to="/captain-login" className='flex justify-center items-center bg-[#b9ea34] text-black font-semibold px-4 py-2 w-full text-lg placeholder:text-base'>
           Sign as Captain</Link>
       </div>
 
