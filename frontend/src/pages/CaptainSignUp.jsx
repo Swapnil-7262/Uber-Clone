@@ -29,7 +29,7 @@ const CaptainSignUp = () => {
 
     console.log(userData);
 
-    // Reset the fields
+    
     setEmail('');
     setPassword('');
     setFullName('');
