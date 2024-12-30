@@ -20,12 +20,15 @@ const generateAccessAndRefreshTokens = async (captainId) => {
 
 const captainRegister = asyncHandler(async (req, res) => {
     const { fullName, email, password, vehicle } = req.body;
+    console.log(req.body);
 
     if ([fullName, email, password].some((field) => typeof field !== "string" || field.trim() === "")) {
         throw new ApiError(400, "All fields are required")
     }
 
     const { color, plateNumber, capacity, vehicleType } = vehicle || {};
+    console.log(typeof(capacity));
+    
 
     if (!vehicle || [color, plateNumber, vehicleType].some((field) => typeof field !== "string" || field.trim() === "")) {
         throw new ApiError(400, "All fields are required")
@@ -60,7 +63,7 @@ const captainRegister = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Something went wrong while registering the captain")
     }
 
-    return res.status(200)
+    return res.status(201)
         .json(
             new ApiResponse(201, { createdCaptain }, "Captain register successfully")
         )
@@ -101,7 +104,7 @@ const captainLogin = asyncHandler(async (req, res) => {
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
         .json(
-            new ApiResponse(200, { loggedCaptain }, "Captain login successfully")
+            new ApiResponse(200, { accessToken, loggedCaptain }, "Captain login successfully")
         )
 
 })

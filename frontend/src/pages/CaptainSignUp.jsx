@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { CaptainDataContext } from '../contexts/CaptianContext'
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 const CaptainSignUp = () => {
   const [email, setEmail] = useState('');
@@ -12,24 +15,37 @@ const CaptainSignUp = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState('')
   const [vehicleType, setVehicleType] = useState('')
 
-  const submitHandler = (e) => {
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const nevigate = useNavigate();
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
-      fullName,
-      email,
-      password,
-      vehicle:{
-        vehicleColor,
-        vehicleNnumber,
-        vehicleCapacity,
-        vehicleType,
+    const newCaptainData = {
+      fullName: fullName,
+      email: email,
+      password: password,
+      vehicle: {
+        color: vehicleColor,
+        plateNumber: vehicleNnumber,
+        capacity: vehicleCapacity,
+        vehicleType: vehicleType
       }
-    });
-
-    console.log(userData);
-
+    }
+    // console.log(newCaptainData);
     
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, newCaptainData, { withCredentials: true })
+
+    // console.log(response);
+    
+
+    if (response.status === 201) {
+      const data = response.data;
+      setCaptain(data.captain);
+      nevigate('/captain-home');
+    }
+
     setEmail('');
     setPassword('');
     setFullName('');
@@ -118,7 +134,7 @@ const CaptainSignUp = () => {
               <input
                 required
                 value={vehicleCapacity}
-                onChange={(e) => setVehicleCapacity(e.target.value)}
+                onChange={(e) => setVehicleCapacity(Number(e.target.value))}
                 className="bg-[#eeeeee] rounded mb-3 px-4 py-2 border w-full text-sm placeholder:text-sm"
                 type="number"
                 placeholder="Capacity"
@@ -132,7 +148,7 @@ const CaptainSignUp = () => {
                 value={vehicleType}
                 onChange={(e) => setVehicleType(e.target.value)}
                 className="bg-[#eeeeee] rounded mb-3 px-4 py-2 border w-full text-sm placeholder:text-sm">
-                <option  value="" disabled selected>
+                <option value="" disabled selected>
                   Select a vehicle type
                 </option>
                 <option value="car">Car</option>

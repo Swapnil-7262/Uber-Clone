@@ -1,8 +1,23 @@
-import React from 'react'
+// import { useEffect } from "react"
+import React, { useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 
-const CaptainProtectWapper = () => {
+
+const CaptainProtectWapper = ({ children }) => {
+
+  const token = localStorage.getItem('token')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/captain-login')
+    }
+  })
+
   return (
-    <div>CaptainProtectWapper</div>
+    <div>
+      {children}
+    </div>
   )
 }
 

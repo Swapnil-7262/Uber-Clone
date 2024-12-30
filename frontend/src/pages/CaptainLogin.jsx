@@ -1,25 +1,46 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { CaptainDataContext } from '../contexts/CaptianContext'
 
 const CaptainLogin = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [captainData, setCaptainData] = useState({})
 
-  const submitHandler = (e) => {
+
+  const { captain, setCaptain } = useContext(CaptainDataContext)
+  const nevigate = useNavigate()
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setCaptainData({
-      email: email,
-      password: password
-    })
 
-    console.log(captainData);
+    const captainData = {
+      email: email,
+      password: password,
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captainData, { withCredentials: true })
+
+    console.log(response);
+
+    if (response.status === 200) {
+      const data = response.data.data
+      console.log(data);
+      setCaptain(data.loggedCaptain)
+      localStorage.setItem('token', data.accessToken)
+      nevigate('/captain-home')
+    }
+
+    // console.log(captain);
 
     setEmail('')
     setPassword('')
 
   }
+  useEffect(() => {
+    console.log(captain); // This will log the updated captain value
+  }, [captain]);
 
   return (
     <div className='p-7 flex flex-col justify-between h-screen'>

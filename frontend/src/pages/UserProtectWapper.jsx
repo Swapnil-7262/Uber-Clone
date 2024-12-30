@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react"
-import { UserDataContext } from "../contexts/UserContext"
+import { useEffect } from "react"
+// import { UserDataContext } from "../contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 
 const UserProtectWapper = ({ children }) => {
