@@ -20,14 +20,14 @@ const generateAccessAndRefreshTokens = async (captainId) => {
 
 const captainRegister = asyncHandler(async (req, res) => {
     const { fullName, email, password, vehicle } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     if ([fullName, email, password].some((field) => typeof field !== "string" || field.trim() === "")) {
         throw new ApiError(400, "All fields are required")
     }
 
     const { color, plateNumber, capacity, vehicleType } = vehicle || {};
-    console.log(typeof(capacity));
+    // console.log(typeof(capacity));
     
 
     if (!vehicle || [color, plateNumber, vehicleType].some((field) => typeof field !== "string" || field.trim() === "")) {
@@ -84,7 +84,7 @@ const captainLogin = asyncHandler(async (req, res) => {
 
     const isPasswordValid = await captain.isPasswordCorrect(password)
 
-    console.log(isPasswordValid);
+    // console.log(isPasswordValid);
     
 
     if (!isPasswordValid) {
