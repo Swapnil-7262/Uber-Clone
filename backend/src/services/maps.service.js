@@ -69,9 +69,9 @@ const getAutoCompleteSuggestions = async(input)=>{
     const url =`https://api.tomtom.com/search/2/search/${encodeURIComponent(input)}.json?key=${apiKey}&limit=5`   
     try {
         const response = await axios.get(url);
-        console.log(response.data);
+        // console.log(response.data);
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         
         // Extract suggestions
         // const suggestions = data.results.map((result) => ({

@@ -10,7 +10,7 @@ const getCoordinate = asyncHandler(async(req, res)=>{
 
     const coordinate = await  getAddressCoordinate(address)
 
-    console.log(coordinate);
+    // console.log(coordinate);
     
 
     if (!coordinate) {
@@ -26,7 +26,7 @@ const getCoordinate = asyncHandler(async(req, res)=>{
 const getDistanceTime = asyncHandler(async (req, res)=>{
 
     const {origin , destination } = req.query
-    console.log(origin, destination);
+    // console.log(origin, destination);
     
 
     if (!origin || !destination) {
