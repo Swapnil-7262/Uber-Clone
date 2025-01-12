@@ -66,7 +66,7 @@ const getDistanceTimes = async(origin, destination)=>{
 const getAutoCompleteSuggestions = async(input)=>{
 
     const apiKey= process.env.TOMTOM_MAPS_API
-    const url =`https://api.tomtom.com/search/2/search/${encodeURIComponent(input)}.json?key=${apiKey}&limit=5`   
+    const url =`https://api.tomtom.com/search/2/search/${encodeURIComponent(input)}.json?key=${apiKey}`   
     try {
         const response = await axios.get(url);
         // console.log(response.data);
