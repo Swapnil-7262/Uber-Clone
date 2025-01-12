@@ -79,4 +79,4 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
-export {createRides}
+export {createRides, getFare}
