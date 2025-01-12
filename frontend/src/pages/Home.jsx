@@ -24,6 +24,8 @@ const Home = () => {
   const [destinationSuggestion, setDestinationSuggestion] = useState([])
   const [activeField, setActiveField] = useState(null)
 
+  const [fare , setFare]= useState({})
+
   const vehiclePanelRef = useRef(null)
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
@@ -155,6 +157,20 @@ const Home = () => {
   async function findTrip() {
     setVehiclePanel(true)
     setPanelOpen(false)
+
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
+      params:{
+        pickup, destination
+      },
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+    }
+    )
+
+    // console.log(response.data.data)
+
+    setFare(response.data.data)
   }
 
   return (
@@ -230,7 +246,10 @@ const Home = () => {
       {/* Vevhicle details components */}
       <div ref={vehiclePanelRef}
         className='fixed z-10 bottom-0 w-full bg-white px-3 py-5 translate-y-full'>
-        <VehiclePanel setComfirmRide={setComfirmRide} setVehiclePanel={setVehiclePanel} />
+        <VehiclePanel 
+        setComfirmRide={setComfirmRide} 
+        setVehiclePanel={setVehiclePanel} 
+        fare={fare}/>
       </div>
 
       {/* comfirm Ride panel section  */}
