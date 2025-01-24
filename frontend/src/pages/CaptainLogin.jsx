@@ -26,9 +26,10 @@ const CaptainLogin = () => {
 
     if (response.status === 200) {
       const data = response.data.data
-      console.log(data);
+      // console.log(data);
       setCaptain(data.loggedCaptain)
       localStorage.setItem('token', data.accessToken)
+      // localStorage.setItem('captain', JSON.stringify(data.loggedCaptain))
       nevigate('/captain-home')
     }
 
@@ -38,9 +39,9 @@ const CaptainLogin = () => {
     setPassword('')
 
   }
-  useEffect(() => {
-    console.log(captain); // This will log the updated captain value
-  }, [captain]);
+  // useEffect(() => {
+  //   console.log(captain); // This will log the updated captain value
+  // }, [captain]);
 
   return (
     <div className='p-7 flex flex-col justify-between h-screen'>

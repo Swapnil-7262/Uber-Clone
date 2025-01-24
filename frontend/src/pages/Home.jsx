@@ -24,7 +24,9 @@ const Home = () => {
   const [destinationSuggestion, setDestinationSuggestion] = useState([])
   const [activeField, setActiveField] = useState(null)
 
-  const [fare , setFare]= useState({})
+  const [fare, setFare] = useState({})
+
+  const [vehicleType, setVehicleType] = useState(null)
 
   const vehiclePanelRef = useRef(null)
   const panelRef = useRef(null)
@@ -50,8 +52,8 @@ const Home = () => {
           }
         })
 
-        // console.log(response.data.data.results);
-      
+      // console.log(response.data.data.results);
+
       setPickupSuggestion(response.data.data.results)
     } catch (error) {
       console.error(error);
@@ -75,8 +77,8 @@ const Home = () => {
           }
         })
 
-        // console.log(response.data.data.results);
-        
+      // console.log(response.data.data.results);
+
       setDestinationSuggestion(response.data.data.results)
     } catch (error) {
       console.error(error);
@@ -125,7 +127,8 @@ const Home = () => {
     }
     else {
       gsap.to(comfirmRideRef.current, {
-        transform: 'translateY(100%)'
+        transform: 'translateY(110%)',
+        padding: "0"
       })
     }
   }, [comfirmRide])
@@ -137,7 +140,8 @@ const Home = () => {
       })
     } else {
       gsap.to(vehicleFoundRef.current, {
-        transform: 'translateY(100%)'
+        transform: 'translateY(110%)',
+        
       })
     }
   }, [vehicleFound])
@@ -158,19 +162,37 @@ const Home = () => {
     setVehiclePanel(true)
     setPanelOpen(false)
 
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
-      params:{
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+      params: {
         pickup, destination
       },
-      headers:{
+      headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
-    }
+      }
     }
     )
 
     // console.log(response.data.data)
 
     setFare(response.data.data)
+  }
+
+  async function createRide() {
+
+    // console.log(localStorage.getItem("token"));
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+      pickup, destination, vehicleType
+    },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    )
+
+    console.log(response.data);
+
   }
 
   return (
@@ -239,29 +261,42 @@ const Home = () => {
             setVehiclePanel={setVehiclePanel}
             setPickup={setPickup}
             setDestination={setDestination}
-            activeField={activeField}/>
+            activeField={activeField} />
         </div>
       </div>
 
       {/* Vevhicle details components */}
       <div ref={vehiclePanelRef}
         className='fixed z-10 bottom-0 w-full bg-white px-3 py-5 translate-y-full'>
-        <VehiclePanel 
-        setComfirmRide={setComfirmRide} 
-        setVehiclePanel={setVehiclePanel} 
-        fare={fare}/>
+        <VehiclePanel
+          setVehicleType={setVehicleType}
+          setComfirmRide={setComfirmRide}
+          setVehiclePanel={setVehiclePanel}
+          fare={fare} />
       </div>
 
       {/* comfirm Ride panel section  */}
       <div ref={comfirmRideRef}
-        className='fixed z-10 bottom-0 w-full bg-white px-3 py-5 translate-y-full'>
-        <ComfirmRide setVehiclePanel={setVehiclePanel} setComfirmRide={setComfirmRide} setVehicleFound={setVehicleFound} />
+        className='fixed z-10 bottom-0 w-full bg-white px-3 translate-y-full'>
+        <ComfirmRide
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+          createRide={createRide}
+          setVehiclePanel={setVehiclePanel}
+          setComfirmRide={setComfirmRide}
+          setVehicleFound={setVehicleFound} />
       </div>
 
       {/* vehicle details section  */}
       <div ref={vehicleFoundRef}
         className='fixed z-10 bottom-0 w-full bg-white px-3 py-5 translate-y-full'>
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          setVehicleFound={setVehicleFound} />
       </div>
 
       {/* waiting for driver  */}

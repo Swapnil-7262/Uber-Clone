@@ -20,11 +20,11 @@ const Captain_Home = () => {
         transform: 'translateY(0)'
       })
     } 
-    // else {
-    //   gsap.to(ridePopupPanelRef.current, {
-    //     transform: 'translateY(100%)'
-    //   })
-    // }
+    else {
+      gsap.to(ridePopupPanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
   }, [ridePopupPanel])
 
   useGSAP(function () {

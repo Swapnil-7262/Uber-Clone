@@ -12,9 +12,10 @@ const VehiclePanel = (props) => {
         className=' flex items-center justify-center w-full text-2xl absolute p-2 top-0 mb-10'>
         <i className="ri-arrow-down-wide-line text-center"></i></h3>
       <h2 className='text-3xl mt-4 font-semibold'>Choose a Vehicle </h2>
-      <div onClick={() =>
+      <div onClick={() => {
         props.setComfirmRide(true)
-      }
+        props.setVehicleType('car')
+      }}
         className=' flex items-center border-2 rounded-3xl active:border-black p-2 mb-3 mt-3'>
         <img
           className='w-24'
@@ -28,9 +29,10 @@ const VehiclePanel = (props) => {
         <h2 className='font-bold text-xl '>₹{props.fare.car}</h2>
       </div>
 
-      <div onClick={() =>
+      <div onClick={() => {
         props.setComfirmRide(true)
-      }
+        props.setVehicleType('moto')
+      }}
         className=' flex items-center border-2 rounded-3xl active:border-black p-2 mb-3'>
         <img
           className='w-24'
@@ -44,9 +46,10 @@ const VehiclePanel = (props) => {
         <h2 className='font-bold text-xl '>₹{props.fare.moto}</h2>
       </div>
 
-      <div onClick={() =>
+      <div onClick={() => {
         props.setComfirmRide(true)
-      }
+        props.setVehicleType('auto')
+      }}
         className=' flex items-center border-2 rounded-3xl active:border-black p-2 mb-3'>
         <img
           className='w-24'
