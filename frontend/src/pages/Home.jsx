@@ -277,7 +277,7 @@ const Home = () => {
 
       {/* comfirm Ride panel section  */}
       <div ref={comfirmRideRef}
-        className='fixed z-10 bottom-0 w-full bg-white px-3 translate-y-full'>
+        className='fixed z-10 bottom-0 w-full bg-white px-5 translate-y-full'>
         <ComfirmRide
           pickup={pickup}
           destination={destination}
