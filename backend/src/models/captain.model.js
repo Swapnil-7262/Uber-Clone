@@ -18,58 +18,58 @@ const captainSchema = new Schema({
         type: String,
         required: true
     },
-    refershToken:{
-    type: String
-},
+    refershToken: {
+        type: String
+    },
     socketId: {
-    type: String,
-},
+        type: String,
+    },
     status: {
-    type: String,
-    enum: ["active", "inactive"],
-    default: "inactive"
-},
+        type: String,
+        enum: ["active", "inactive"],
+        default: "inactive"
+    },
     vehicle: {
-    color: {
-        type: String,
-        required: true,
-        minlength: [3, "color must be at least 3 characters long"]
-    },
-    plateNumber: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: [3, "plate number must be at least 3 characters long"]
-    },
-    capacity: {
-        type: Number,
-        required: true,
-        min: [1, "capacity must be at least 1 person"]
-    },
-    vehicleType: {
-        type: String,
-        required: true,
-        enum: ["motorcycle", "car", "auto"],
-        default: "car"
-    }
+        color: {
+            type: String,
+            required: true,
+            minlength: [3, "color must be at least 3 characters long"]
+        },
+        plateNumber: {
+            type: String,
+            required: true,
+            unique: true,
+            minlength: [3, "plate number must be at least 3 characters long"]
+        },
+        capacity: {
+            type: Number,
+            required: true,
+            min: [1, "capacity must be at least 1 person"]
+        },
+        vehicleType: {
+            type: String,
+            required: true,
+            enum: ["motorcycle", "car", "auto"],
+            default: "car"
+        }
 
-},
+    },
     location: {
-    ltd: {
-        type: Number,
+        ltd: {
+            type: Number,
 
-    },
-    lng: {
-        type: Number,
+        },
+        lng: {
+            type: Number,
+        }
     }
-}
 }, { timestamps: true })
 
 captainSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10);
     next();
-  });
+});
 
 captainSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)

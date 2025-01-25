@@ -16,7 +16,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    stockId: {
+    socketId: {
         type: String
     },
     refreshToken: {
