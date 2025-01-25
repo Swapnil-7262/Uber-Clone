@@ -34,7 +34,7 @@ const App = () => {
             <Home />
           </UserProtectWapper>} />
 
-        <Route path='/user/logout' element={
+        <Route path='/user-logout' element={
           <UserProtectWapper>
             <UserLogout />
           </UserProtectWapper>
