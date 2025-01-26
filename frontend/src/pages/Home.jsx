@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { useGSAP } from "@gsap/react"
 import gsap from 'gsap'
 import 'remixicon/fonts/remixicon.css'
@@ -8,6 +8,8 @@ import ComfirmRide from '../components/ComfirmRide'
 import LookingForDriver from '../components/LookingForDriver'
 import WaitingForDriver from '../components/WaitingForDriver'
 import axios from "axios"
+import {SocketContext} from '../contexts/SocketContext'
+import {UserDataContext} from "../contexts/UserContext"
 
 
 const Home = () => {
@@ -35,6 +37,16 @@ const Home = () => {
   const vehicleFoundRef = useRef(null)
   const waitingForDriverRef = useRef(null)
 
+  const {socket} = useContext(SocketContext)
+  const {user , setUser} = useContext(UserDataContext)
+
+
+  useEffect(() => {
+    socket.emit("join", {userType: "user", userId: user._id})
+     
+    }, [user]);
+  
+
   const submitHandler = (e) => {
     e.preventDefault();
   }
@@ -61,10 +73,7 @@ const Home = () => {
     }
   }
 
-  // useEffect(() => {
-  //   console.log("Updated pickupSuggestion:", pickupSuggestion); // Log whenever state updates
-  // }, [pickupSuggestion]);
-
+  // 
   const changeDestinationHandler = async (e) => {
     setDestination(e.target.value)
 
