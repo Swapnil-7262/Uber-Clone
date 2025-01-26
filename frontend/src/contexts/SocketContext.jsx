@@ -17,18 +17,10 @@ const SocketProvider=({children})=>{
         })
     }, [])
     
-    const sendMessage = (evenName, message)=>{
-
-        socket.emit(evenName, message);
-
-    }
-    const receiveMessage = (evenName, callback)=>{
-
-        socket.on(evenName, callback);
-    }
+    
 
     return(
-        <SocketContext.Provider value={{sendMessage, receiveMessage}}>
+        <SocketContext.Provider value={{socket}}>
             {children}
         </SocketContext.Provider>
     )

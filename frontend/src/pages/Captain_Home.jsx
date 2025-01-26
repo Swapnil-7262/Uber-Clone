@@ -1,25 +1,42 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Link } from "react-router-dom"
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopup'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
+import { CaptainDataContext } from '../contexts/CaptianContext'
+import {SocketContext} from '../contexts/SocketContext'
 
 const Captain_Home = () => {
 
-  const [ ridePopupPanel, setRidePopupPanel ] = useState(false)
-  const [ confirmRidePopupPanel, setConfirmRidePopupPanel ] = useState(false)
+  const [ridePopupPanel, setRidePopupPanel] = useState(false)
+  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false)
 
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupPanelRef = useRef(null)
+
+  const { socket } = useContext(SocketContext)
+  const { captain } = useContext(CaptainDataContext)
+
+  useEffect(() => {
+
+    if (!captain) return;
+    console.log(captain._id);
+    
+    socket.emit("join",{
+      userId: captain._id,
+      userType:"captain"
+    })
+  }, [captain, socket])
+  
 
   useGSAP(function () {
     if (ridePopupPanel) {
       gsap.to(ridePopupPanelRef.current, {
         transform: 'translateY(0)'
       })
-    } 
+    }
     else {
       gsap.to(ridePopupPanelRef.current, {
         transform: 'translateY(100%)'
@@ -39,6 +56,10 @@ const Captain_Home = () => {
     }
   }, [confirmRidePopupPanel])
 
+  // if (!captain) {
+  //   return <div>Loading....</div>
+  // }
+
   return (
     <div className='h-screen'>
       <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
@@ -53,7 +74,8 @@ const Captain_Home = () => {
       </div>
 
       <div className=' h-[30%] p-4'>
-        <CaptainDetails />
+        <CaptainDetails 
+        captain= {captain}/>
       </div>
 
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 transla1te-y-full bg-white px-3 py-10 pt-12'>
