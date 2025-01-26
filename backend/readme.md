@@ -72,7 +72,7 @@ project/
     │   ├── App.jsx
     │   └── main.jsx
     └── package.json
-
+```
 
 ## Installation
 
