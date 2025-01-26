@@ -82,3 +82,7 @@ project/
    ```
    git clone https://github.com/your-username/uber-clone.git
 ```
+2.Navigate to the backend directory:
+```
+cd uber-clone/backend
+```
